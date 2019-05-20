@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
         notesRecyclerView.setAdapter(notesAdapter);
 
+        // I've set everything up for pagination
+        //      but im too tired for today
+        //      to make sorting and pagination work together
 
         SearchView searchView = findViewById(R.id.mainSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
