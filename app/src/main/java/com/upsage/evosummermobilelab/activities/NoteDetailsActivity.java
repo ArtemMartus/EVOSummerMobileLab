@@ -40,7 +40,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
         if (!text.isEmpty()) {
             note.setDescription(text);
             NotesData.getInstance().save(note);
-        } else if (note != null)
+        } else if (note.getId() != null)
             NotesData.getInstance().delete(note.getId());
 
         startActivity(new Intent(this, MainActivity.class));

@@ -8,10 +8,15 @@ import android.view.View;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upsage.evosummermobilelab.activities.NoteDetailsActivity;
+import com.upsage.evosummermobilelab.data.NoteDiff;
 import com.upsage.evosummermobilelab.data.NotesAdapter;
 import com.upsage.evosummermobilelab.data.entries.Note;
 import com.upsage.evosummermobilelab.data.intefaces.OnItemClickListener;
@@ -23,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private NotesAdapter notesAdapter;
     private SearchView searchView;
+    private LiveData<PagedList<Note>> notePagedLiveList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,20 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        notesAdapter = new NotesAdapter(this);
+
+
+        DataSource.Factory<Integer, Note> factory = NotesData.getInstance().getAllPaged();
+        LivePagedListBuilder<Integer, Note> pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
+
+        notesAdapter = new NotesAdapter(new NoteDiff(), this);
+        notePagedLiveList = pagedListBuilder.build();
+        notePagedLiveList.observe(this, notes -> {
+            if (notes != null)
+                notesAdapter.submitList(notes);
+        });
+
         notesRecyclerView.setAdapter(notesAdapter);
+
 
         searchView = findViewById(R.id.mainSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -91,4 +109,5 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     public void OnItemClick(View view, int position) {
         goToDetailsActivity(notesAdapter.getItem(position).getId());
     }
+
 }

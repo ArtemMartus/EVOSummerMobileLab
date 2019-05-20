@@ -1,5 +1,7 @@
 package com.upsage.evosummermobilelab.data.intefaces;
 
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -9,6 +11,7 @@ import androidx.room.Update;
 import com.upsage.evosummermobilelab.data.entries.Note;
 
 import java.util.List;
+
 
 @Dao
 public interface NoteDao {
@@ -38,4 +41,10 @@ public interface NoteDao {
 
     @Update
     void update(Note note);
+
+    @Query("select * from note")
+    DataSource.Factory<Integer, Note> getAllPaged();
+
+    @Query("select * from note")
+    LiveData<List<Note>> getAllLive();
 }

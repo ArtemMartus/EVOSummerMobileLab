@@ -2,6 +2,7 @@ package com.upsage.evosummermobilelab.data.singleton;
 
 import android.content.Context;
 
+import androidx.paging.DataSource;
 import androidx.room.Room;
 
 import com.upsage.evosummermobilelab.data.entries.Note;
@@ -77,5 +78,9 @@ public class NotesData {
 
     public List<Note> getLike(String str) {
         return db.userDao().findByDescription("%" + str + "%");
+    }
+
+    public DataSource.Factory<Integer, Note> getAllPaged() {
+        return db.userDao().getAllPaged();
     }
 }

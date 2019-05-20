@@ -5,7 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 
 import com.upsage.evosummermobilelab.R;
 import com.upsage.evosummermobilelab.data.entries.Note;
@@ -15,13 +16,14 @@ import com.upsage.evosummermobilelab.data.viewholders.NoteViewHolder;
 
 import java.util.List;
 
-public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+public class NotesAdapter extends PagedListAdapter<Note, NoteViewHolder> {
 
     private final OnItemClickListener listener;
     private List<Note> allNotes;
     private boolean sortByDateAsc = true;
 
-    public NotesAdapter(OnItemClickListener itemClickListener) {
+    public NotesAdapter(DiffUtil.ItemCallback<Note> noteItemCallback, OnItemClickListener itemClickListener) {
+        super(noteItemCallback);
         listener = itemClickListener;
         if (sortByDateAsc)
             allNotes = NotesData.getInstance().getAllNotesAsc();
