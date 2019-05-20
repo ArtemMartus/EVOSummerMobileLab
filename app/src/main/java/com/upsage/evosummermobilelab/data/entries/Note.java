@@ -2,6 +2,7 @@ package com.upsage.evosummermobilelab.data.entries;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -13,8 +14,10 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 @Entity
 public class Note implements Serializable {
+
     @PrimaryKey(autoGenerate = true)
     private Integer id;
 
@@ -22,6 +25,7 @@ public class Note implements Serializable {
     @ColumnInfo(name = "update_date")
     private Date updateDate;
 
+    @NonNull
     @ColumnInfo(name = "description")
     private String description;
 

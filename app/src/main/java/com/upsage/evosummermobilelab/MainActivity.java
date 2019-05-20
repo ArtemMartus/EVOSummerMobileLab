@@ -9,10 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upsage.evosummermobilelab.activities.NoteDetailsActivity;
-import com.upsage.evosummermobilelab.data.Notes;
+import com.upsage.evosummermobilelab.data.NotesAdapter;
+import com.upsage.evosummermobilelab.data.intefaces.OnItemClickListener;
 import com.upsage.evosummermobilelab.data.singleton.NotesData;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnItemClickListener {
+
+    private NotesAdapter notesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Notes notes = new Notes((view, position) -> goToDetailsActivity(position + 1));
-        notesRecyclerView.setAdapter(notes);
+        notesAdapter = new NotesAdapter(this);
+        notesRecyclerView.setAdapter(notesAdapter);
     }
 
     public void addNoteClick(View fabView) {
@@ -39,4 +42,8 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void OnItemClick(View view, int position) {
+        goToDetailsActivity(notesAdapter.getItem(position).getId());
+    }
 }

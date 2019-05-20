@@ -8,6 +8,7 @@ import com.upsage.evosummermobilelab.data.entries.Note;
 import com.upsage.evosummermobilelab.data.intefaces.AppDatabase;
 
 import java.util.Date;
+import java.util.List;
 
 public class NotesData {
     private static NotesData instance;
@@ -52,16 +53,21 @@ public class NotesData {
         return note;
     }
 
-    public void delete(Note note) {
-        db.userDao().delete(note);
+    public void delete(int noteId) {
+        db.userDao().delete(noteId);
     }
 
     public void save(Note note) {
         if (note.getDescription().isEmpty()) {
-            db.userDao().delete(note);
+            db.userDao().delete(note.getId());
         } else {
             note.setUpdateDate(new Date());
-            db.userDao().update(note);
+            if (db.userDao().insertAll(note)[0] == -1)
+                db.userDao().update(note);
         }
+    }
+
+    public List<Note> getAllNotes() {
+        return db.userDao().getAll();
     }
 }

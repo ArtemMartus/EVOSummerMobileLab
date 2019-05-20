@@ -1,8 +1,8 @@
 package com.upsage.evosummermobilelab.data.intefaces;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,20 +15,20 @@ public interface NoteDao {
     @Query("SELECT * FROM note")
     List<Note> getAll();
 
-    @Query("SELECT * FROM note WHERE id = (:noteId) limit 1")
+    @Query("SELECT * FROM note WHERE id = :noteId")
     Note loadById(int noteId);
 
     @Query("SELECT * FROM note WHERE id IN (:noteIds)")
     List<Note> loadAllByIds(int[] noteIds);
 
-    @Query("SELECT * FROM note WHERE description LIKE :first LIMIT 1")
+    @Query("SELECT * FROM note WHERE description LIKE :first")
     Note findByDescription(String first);
 
-    @Insert
-    void insertAll(Note... users);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    long[] insertAll(Note... users);
 
-    @Delete
-    void delete(Note user);
+    @Query("DELETE FROM note WHERE id = :id")
+    void delete(int id);
 
     @Query("SELECT COUNT(*) FROM note")
     int getCount();

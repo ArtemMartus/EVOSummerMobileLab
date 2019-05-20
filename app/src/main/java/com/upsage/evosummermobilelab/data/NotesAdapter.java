@@ -13,14 +13,22 @@ import com.upsage.evosummermobilelab.data.intefaces.OnItemClickListener;
 import com.upsage.evosummermobilelab.data.singleton.NotesData;
 import com.upsage.evosummermobilelab.data.viewholders.NoteViewHolder;
 
-public class Notes extends RecyclerView.Adapter<NoteViewHolder> {
+import java.util.List;
+
+public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     private final OnItemClickListener listener;
+    private final List<Note> allNotes;
 
-    public Notes(OnItemClickListener itemClickListener) {
+    public NotesAdapter(OnItemClickListener itemClickListener) {
         listener = itemClickListener;
+        allNotes = NotesData.getInstance().getAllNotes();
     }
 
+
+    public Note getItem(int position) {
+        return allNotes.get(position);
+    }
 
     @NonNull
     @Override
@@ -31,13 +39,13 @@ public class Notes extends RecyclerView.Adapter<NoteViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Note note = NotesData.getInstance().getItem(position + 1);
+        Note note = allNotes.get(position);
         if (note != null)
             holder.setData(note.getDate(), note.getTime(), note.getDescription());
     }
 
     @Override
     public int getItemCount() {
-        return NotesData.getInstance().getSize();
+        return allNotes.size();
     }
 }

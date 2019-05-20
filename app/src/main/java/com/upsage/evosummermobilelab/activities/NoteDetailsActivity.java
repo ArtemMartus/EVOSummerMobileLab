@@ -2,6 +2,8 @@ package com.upsage.evosummermobilelab.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,20 +35,37 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStop() {
+    void goMain() {
         String text = editText.getText().toString();
         if (!text.isEmpty()) {
             note.setDescription(text);
             NotesData.getInstance().save(note);
-        } else
-            NotesData.getInstance().delete(note);
-        super.onStop();
+        } else if (note != null)
+            NotesData.getInstance().delete(note.getId());
+
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+        goMain();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.details, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.deleteNoteMenuItem:
+                editText.getText().clear();
+                goMain();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
