@@ -19,12 +19,27 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     private final OnItemClickListener listener;
     private List<Note> allNotes;
+    private boolean sortByDateAsc = true;
 
     public NotesAdapter(OnItemClickListener itemClickListener) {
         listener = itemClickListener;
-        allNotes = NotesData.getInstance().getAllNotes();
+        if (sortByDateAsc)
+            allNotes = NotesData.getInstance().getAllNotesAsc();
+        else
+            allNotes = NotesData.getInstance().getAllNotesDesc();
+
     }
 
+    public void setSorting(boolean ascOrder) {
+        if (ascOrder != sortByDateAsc) {
+            sortByDateAsc = ascOrder;
+            if (sortByDateAsc)
+                allNotes = NotesData.getInstance().getAllNotesAsc();
+            else
+                allNotes = NotesData.getInstance().getAllNotesDesc();
+            notifyDataSetChanged();
+        }
+    }
 
     public Note getItem(int position) {
         return allNotes.get(position);

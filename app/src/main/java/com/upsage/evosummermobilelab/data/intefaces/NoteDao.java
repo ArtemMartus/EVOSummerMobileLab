@@ -12,8 +12,11 @@ import java.util.List;
 
 @Dao
 public interface NoteDao {
-    @Query("SELECT * FROM note")
-    List<Note> getAll();
+    @Query("SELECT * FROM note order by update_date asc")
+    List<Note> getAllAsc();
+
+    @Query("SELECT * FROM note ORDER BY update_date desc")
+    List<Note> getAllDesc();
 
     @Query("SELECT * FROM note WHERE id = :noteId")
     Note loadById(int noteId);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/ascendingSort"
+        android:title="@string/ascendingOrder" />
+    <item
+        android:id="@+id/descendingSort"
+        android:title="@string/descendingOrder" />
+</menu>

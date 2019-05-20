@@ -2,6 +2,8 @@ package com.upsage.evosummermobilelab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -51,6 +53,26 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                 return doSearch(newText);
             }
         });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ascendingSort:
+                notesAdapter.setSorting(true);
+                return true;
+            case R.id.descendingSort:
+                notesAdapter.setSorting(false);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     public void addNoteClick(View fabView) {

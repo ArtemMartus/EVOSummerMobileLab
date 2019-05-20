@@ -67,8 +67,12 @@ public class NotesData {
         }
     }
 
-    public List<Note> getAllNotes() {
-        return db.userDao().getAll();
+    public List<Note> getAllNotesAsc() {
+        return db.userDao().getAllAsc();
+    }
+
+    public List<Note> getAllNotesDesc() {
+        return db.userDao().getAllDesc();
     }
 
     public List<Note> getLike(String str) {
