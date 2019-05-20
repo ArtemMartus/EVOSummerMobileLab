@@ -65,6 +65,13 @@ public class NoteDetailsActivity extends AppCompatActivity {
                 editText.getText().clear();
                 goMain();
                 return true;
+            case R.id.shareMenuItem:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, editText.getText());
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
