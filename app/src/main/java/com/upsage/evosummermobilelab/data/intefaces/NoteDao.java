@@ -1,6 +1,5 @@
 package com.upsage.evosummermobilelab.data.intefaces;
 
-import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -24,9 +23,6 @@ public interface NoteDao {
     @Query("SELECT * FROM note WHERE id = :noteId")
     Note loadById(int noteId);
 
-    @Query("SELECT * FROM note WHERE id IN (:noteIds)")
-    List<Note> loadAllByIds(int[] noteIds);
-
     @Query("SELECT * FROM note WHERE description LIKE :first")
     List<Note> findByDescription(String first);
 
@@ -36,15 +32,10 @@ public interface NoteDao {
     @Query("DELETE FROM note WHERE id = :id")
     void delete(int id);
 
-    @Query("SELECT COUNT(*) FROM note")
-    int getCount();
-
     @Update
     void update(Note note);
 
     @Query("select * from note")
     DataSource.Factory<Integer, Note> getAllPaged();
 
-    @Query("select * from note")
-    LiveData<List<Note>> getAllLive();
 }

@@ -15,8 +15,8 @@ import com.upsage.evosummermobilelab.data.singleton.NotesData;
 
 public class NoteDetailsActivity extends AppCompatActivity {
 
-    Note note;
-    EditText editText;
+    private Note note;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
 
     }
 
-    void goMain() {
+    private void goMain() {
         String text = editText.getText().toString();
         if (!text.isEmpty()) {
             note.setDescription(text);

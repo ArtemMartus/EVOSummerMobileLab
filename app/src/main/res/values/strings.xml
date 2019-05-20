@@ -6,4 +6,7 @@
     <string name="defaultDate">12.04.12</string>
     <string name="ascendingOrder">От новых к старым</string>
     <string name="descendingOrder">От старых к новым</string>
+    <string name="share">Поделиться</string>
+    <string name="delete">Удалить</string>
+    <string name="follow_icon">Follow icon</string>
 </resources>

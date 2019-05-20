@@ -10,6 +10,8 @@ import androidx.room.TypeConverters;
 
 import com.upsage.evosummermobilelab.data.converters.DateConverter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,7 +31,7 @@ public class Note implements Serializable {
     @ColumnInfo(name = "description")
     private String description;
 
-    public Note(Date updateDate, String description) {
+    public Note(Date updateDate, @NotNull String description) {
         this.updateDate = updateDate;
         this.description = description;
     }
@@ -60,11 +62,12 @@ public class Note implements Serializable {
         this.updateDate = updateDate;
     }
 
+    @NotNull
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@NotNull String description) {
         this.description = description;
     }
 

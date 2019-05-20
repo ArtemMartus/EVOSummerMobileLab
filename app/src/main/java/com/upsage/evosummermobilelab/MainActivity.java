@@ -27,8 +27,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private NotesAdapter notesAdapter;
-    private SearchView searchView;
-    private LiveData<PagedList<Note>> notePagedLiveList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         LivePagedListBuilder<Integer, Note> pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
 
         notesAdapter = new NotesAdapter(new NoteDiff(), this);
-        notePagedLiveList = pagedListBuilder.build();
+        LiveData<PagedList<Note>> notePagedLiveList = pagedListBuilder.build();
         notePagedLiveList.observe(this, notes -> {
             if (notes != null)
                 notesAdapter.submitList(notes);
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         notesRecyclerView.setAdapter(notesAdapter);
 
 
-        searchView = findViewById(R.id.mainSearchView);
+        SearchView searchView = findViewById(R.id.mainSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             boolean doSearch(String str) {
                 List<Note> notes = NotesData.getInstance().getLike(str);
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         goToDetailsActivity(null);
     }
 
-    void goToDetailsActivity(Integer noteId) {
+    private void goToDetailsActivity(Integer noteId) {
         Intent intent = new Intent(this, NoteDetailsActivity.class);
         if (noteId != null)
             intent.putExtra("noteId", noteId);
@@ -107,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void OnItemClick(View view, int position) {
-        goToDetailsActivity(notesAdapter.getItem(position).getId());
+        Note note = notesAdapter.getItem(position);
+        if (note != null)
+            goToDetailsActivity(note.getId());
     }
 
 }

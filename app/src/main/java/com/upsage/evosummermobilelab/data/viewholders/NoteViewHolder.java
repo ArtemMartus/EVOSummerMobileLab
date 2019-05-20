@@ -11,9 +11,9 @@ import com.upsage.evosummermobilelab.data.intefaces.OnItemClickListener;
 
 public class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView dateTextView;
-    private TextView timeTextView;
-    private TextView noteTextView;
+    private final TextView dateTextView;
+    private final TextView timeTextView;
+    private final TextView noteTextView;
 
     public NoteViewHolder(@NonNull View itemView, OnItemClickListener listener) {
         super(itemView);
