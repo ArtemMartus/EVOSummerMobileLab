@@ -22,7 +22,7 @@ public interface NoteDao {
     List<Note> loadAllByIds(int[] noteIds);
 
     @Query("SELECT * FROM note WHERE description LIKE :first")
-    Note findByDescription(String first);
+    List<Note> findByDescription(String first);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long[] insertAll(Note... users);

@@ -70,4 +70,8 @@ public class NotesData {
     public List<Note> getAllNotes() {
         return db.userDao().getAll();
     }
+
+    public List<Note> getLike(String str) {
+        return db.userDao().findByDescription("%" + str + "%");
+    }
 }

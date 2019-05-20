@@ -18,7 +18,7 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     private final OnItemClickListener listener;
-    private final List<Note> allNotes;
+    private List<Note> allNotes;
 
     public NotesAdapter(OnItemClickListener itemClickListener) {
         listener = itemClickListener;
@@ -28,6 +28,15 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     public Note getItem(int position) {
         return allNotes.get(position);
+    }
+
+    public boolean setNotes(List<Note> notes) {
+        if (notes != null) {
+            this.allNotes = notes;
+            notifyDataSetChanged();
+            return true;
+        }
+        return false;
     }
 
     @NonNull
