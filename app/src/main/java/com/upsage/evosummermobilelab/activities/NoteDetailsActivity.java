@@ -41,7 +41,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
             note.setDescription(text);
             NotesData.getInstance().save(note);
         } else if (note.getId() != null)
-            NotesData.getInstance().delete(note.getId());
+            NotesData.getInstance().delete(note);
 
         startActivity(new Intent(this, MainActivity.class));
         finish();

@@ -2,6 +2,7 @@ package com.upsage.evosummermobilelab.data.intefaces;
 
 import androidx.paging.DataSource;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,8 +22,8 @@ public interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long[] insertAll(Note... users);
 
-    @Query("DELETE FROM note WHERE id = :id")
-    void delete(int id);
+    @Delete
+    void delete(Note id);
 
     @Update
     void update(Note note);

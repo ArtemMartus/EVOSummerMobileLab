@@ -44,13 +44,13 @@ public class NotesData {
         return new Note(new Date(), "");
     }
 
-    public void delete(int noteId) {
+    public void delete(Note noteId) {
         db.userDao().delete(noteId);
     }
 
     public void save(Note note) {
         if (note.getDescription().isEmpty()) {
-            db.userDao().delete(note.getId());
+            db.userDao().delete(note);
         } else {
             note.setUpdateDate(new Date());
             if (db.userDao().insertAll(note)[0] == -1)
