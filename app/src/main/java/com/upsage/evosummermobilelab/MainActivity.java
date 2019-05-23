@@ -22,11 +22,55 @@ import com.upsage.evosummermobilelab.data.entries.Note;
 import com.upsage.evosummermobilelab.data.intefaces.OnItemClickListener;
 import com.upsage.evosummermobilelab.data.singleton.NotesData;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity implements OnItemClickListener {
 
     private NotesAdapter notesAdapter;
+    LiveData<PagedList<Note>> notePagedLiveList;
+    private RecyclerView notesRecyclerView;
+    private DataSource.Factory<Integer, Note> factory;
+    private LivePagedListBuilder<Integer, Note> pagedListBuilder;
+
+    void goAsc() {
+        factory = NotesData.getInstance().getAllPagedAsc();
+        pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
+
+        notesAdapter = new NotesAdapter(new NoteDiff(), this);
+        notePagedLiveList = pagedListBuilder.build();
+        notePagedLiveList.observe(this, notes -> {
+            if (notes != null)
+                notesAdapter.submitList(notes);
+        });
+
+        notesRecyclerView.setAdapter(notesAdapter);
+    }
+
+    void goDesc() {
+        factory = NotesData.getInstance().getAllPagedDesc();
+        pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
+
+        notesAdapter = new NotesAdapter(new NoteDiff(), this);
+        notePagedLiveList = pagedListBuilder.build();
+        notePagedLiveList.observe(this, notes -> {
+            if (notes != null)
+                notesAdapter.submitList(notes);
+        });
+
+        notesRecyclerView.setAdapter(notesAdapter);
+    }
+
+    void goSearch(String str) {
+        factory = NotesData.getInstance().getLike(str);
+        pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
+
+        notesAdapter = new NotesAdapter(new NoteDiff(), this);
+        notePagedLiveList = pagedListBuilder.build();
+        notePagedLiveList.observe(this, notes -> {
+            if (notes != null)
+                notesAdapter.submitList(notes);
+        });
+
+        notesRecyclerView.setAdapter(notesAdapter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +79,16 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView notesRecyclerView = findViewById(R.id.notesRecyclerView);
+        notesRecyclerView = findViewById(R.id.notesRecyclerView);
         notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        DataSource.Factory<Integer, Note> factory = NotesData.getInstance().getAllPaged();
-        LivePagedListBuilder<Integer, Note> pagedListBuilder = new LivePagedListBuilder<>(factory, 20);
-
-        notesAdapter = new NotesAdapter(new NoteDiff(), this);
-        LiveData<PagedList<Note>> notePagedLiveList = pagedListBuilder.build();
-        notePagedLiveList.observe(this, notes -> {
-            if (notes != null)
-                notesAdapter.submitList(notes);
-        });
-
-        notesRecyclerView.setAdapter(notesAdapter);
-
-        // I've set everything up for pagination
-        //      but im too tired for today
-        //      to make sorting and pagination work together
+        goAsc();
 
         SearchView searchView = findViewById(R.id.mainSearchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             boolean doSearch(String str) {
-                List<Note> notes = NotesData.getInstance().getLike(str);
-                return notesAdapter.setNotes(notes);
+                goSearch(str);
+                return true;
             }
 
             @Override
@@ -78,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.ascendingSort:
-                notesAdapter.setSorting(true);
-                return true;
             case R.id.descendingSort:
-                notesAdapter.setSorting(false);
+                goDesc();
+                return true;
+            case R.id.ascendingSort:
+                goAsc();
                 return true;
         }
         return super.onOptionsItemSelected(item);

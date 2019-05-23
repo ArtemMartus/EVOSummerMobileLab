@@ -9,22 +9,14 @@ import androidx.room.Update;
 
 import com.upsage.evosummermobilelab.data.entries.Note;
 
-import java.util.List;
-
-
 @Dao
 public interface NoteDao {
-    @Query("SELECT * FROM note order by update_date asc")
-    List<Note> getAllAsc();
-
-    @Query("SELECT * FROM note ORDER BY update_date desc")
-    List<Note> getAllDesc();
 
     @Query("SELECT * FROM note WHERE id = :noteId")
     Note loadById(int noteId);
 
     @Query("SELECT * FROM note WHERE description LIKE :first")
-    List<Note> findByDescription(String first);
+    DataSource.Factory<Integer, Note> findByDescription(String first);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     long[] insertAll(Note... users);
@@ -35,7 +27,10 @@ public interface NoteDao {
     @Update
     void update(Note note);
 
-    @Query("select * from note")
-    DataSource.Factory<Integer, Note> getAllPaged();
+    @Query("select * from note order by update_date desc")
+    DataSource.Factory<Integer, Note> getAllPagedDesc();
+
+    @Query("select * from note order by update_date asc")
+    DataSource.Factory<Integer, Note> getAllPagedAsc();
 
 }

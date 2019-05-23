@@ -21,7 +21,7 @@ import java.util.Date;
 public class Note implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Integer id = -1; //get id have to return non null variable
 
     @TypeConverters({DateConverter.class})
     @ColumnInfo(name = "update_date")

@@ -9,7 +9,7 @@ import com.upsage.evosummermobilelab.data.entries.Note;
 import com.upsage.evosummermobilelab.data.intefaces.AppDatabase;
 
 import java.util.Date;
-import java.util.List;
+
 
 public class NotesData {
     private static NotesData instance;
@@ -39,13 +39,13 @@ public class NotesData {
         return db.userDao().loadById(position);
     }
 
-    private void addNote(Note note) {
-        db.userDao().insertAll(note);
-    }
+//    private void addNote(Note note) {
+//        db.userDao().insertAll(note);
+//    }
 
     public Note getNewNote() {
         Note note = new Note(new Date(), "");
-        addNote(note);
+        //addNote(note); should not add empty note to db
         return note;
     }
 
@@ -63,19 +63,15 @@ public class NotesData {
         }
     }
 
-    public List<Note> getAllNotesAsc() {
-        return db.userDao().getAllAsc();
-    }
-
-    public List<Note> getAllNotesDesc() {
-        return db.userDao().getAllDesc();
-    }
-
-    public List<Note> getLike(String str) {
+    public DataSource.Factory<Integer, Note> getLike(String str) {
         return db.userDao().findByDescription("%" + str + "%");
     }
 
-    public DataSource.Factory<Integer, Note> getAllPaged() {
-        return db.userDao().getAllPaged();
+    public DataSource.Factory<Integer, Note> getAllPagedAsc() {
+        return db.userDao().getAllPagedAsc();
+    }
+
+    public DataSource.Factory<Integer, Note> getAllPagedDesc() {
+        return db.userDao().getAllPagedDesc();
     }
 }
