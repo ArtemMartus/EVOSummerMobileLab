@@ -39,14 +39,9 @@ public class NotesData {
         return db.userDao().loadById(position);
     }
 
-//    private void addNote(Note note) {
-//        db.userDao().insertAll(note);
-//    }
 
     public Note getNewNote() {
-        Note note = new Note(new Date(), "");
-        //addNote(note); should not add empty note to db
-        return note;
+        return new Note(new Date(), "");
     }
 
     public void delete(int noteId) {
